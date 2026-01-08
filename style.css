@@ -230,7 +230,7 @@ input:focus {
 
 .list-header {
     display: grid;
-    grid-template-columns: 60px 1fr 1fr 60px;
+    grid-template-columns: 60px 1fr 1fr 1fr 60px;
     padding: 1rem 1.5rem;
     background: rgba(255, 255, 255, 0.05);
     border-bottom: 1px solid var(--border-color);
@@ -258,7 +258,7 @@ input:focus {
 
 .item-row {
     display: grid;
-    grid-template-columns: 60px 1fr 1fr 60px;
+    grid-template-columns: 60px 1fr 1fr 1fr 60px;
     padding: 1rem 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     align-items: center;
@@ -296,6 +296,11 @@ input:focus {
 
 .item-tax {
     color: var(--text-secondary);
+}
+
+.item-total {
+    font-weight: 600;
+    color: var(--primary-color);
 }
 
 .delete-btn {
@@ -380,8 +385,9 @@ input:focus {
 
     .list-header,
     .item-row {
-        padding: 0.75rem 1rem;
-        grid-template-columns: 40px 1fr 1fr 40px;
+        padding: 0.75rem 0.5rem;
+        grid-template-columns: 40px 1fr 1fr 1fr 40px;
+        font-size: 0.75rem;
     }
 
     .list-header.total-mode,
@@ -399,8 +405,8 @@ input:focus {
 
     .list-header,
     .item-row {
-        grid-template-columns: 35px 1fr 1fr 35px;
-        font-size: 0.8rem;
+        grid-template-columns: 35px 1fr 1fr 1fr 35px;
+        font-size: 0.7rem;
     }
 
     .item-index {

@@ -62,6 +62,7 @@ function renderList() {
             <span class="item-index">#${index + 1}</span>
             <span class="item-sales">${formatNumber(invoice.sales)}</span>
             <span class="item-tax">${formatNumber(invoice.tax)}</span>
+            <span class="item-total">${formatNumber(invoice.sales + invoice.tax)}</span>
             <button class="delete-btn" onclick="deleteInvoice(${index})" title="刪除">
                 <i data-lucide="trash-2"></i>
             </button>
