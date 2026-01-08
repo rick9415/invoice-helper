@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>銷售額與稅額快速計算器</title>
-    <meta name="description" content="一個簡單高效的連續發票銷售額與稅額輸入工具">
+    <title>總額快速計算器</title>
+    <meta name="description" content="一個簡單高效的連續總額輸入工具">
     <link rel="stylesheet" href="style.css">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -15,64 +15,55 @@
     <div class="container">
         <header>
             <h1>發票小助手</h1>
-            <p>快速記錄每筆發票資訊，自動計算總計</p>
+            <p>快速記錄每筆金額，自動計算總計</p>
         </header>
 
         <nav class="nav-tabs">
-            <a href="index.html" class="nav-link active">發票模式</a>
-            <a href="total.html" class="nav-link">總額模式</a>
+            <a href="index.html" class="nav-link">發票模式</a>
+            <a href="total.html" class="nav-link active">總額模式</a>
         </nav>
 
         <section class="input-card">
             <div class="input-group">
                 <div class="input-label">
                     <span>目前的輸入項目</span>
-                    <span id="currentStatus" class="status">● 銷售額</span>
+                    <span id="currentStatus" class="status">● 總金額</span>
                 </div>
                 <div class="input-wrapper">
-                    <input type="number" id="mainInput" placeholder="請輸入數值..." autofocus step="any">
+                    <input type="number" id="mainInput" placeholder="請輸入金額..." autofocus step="any">
                     <button id="addBtn" class="add-btn">
                         <i data-lucide="plus"></i>
                     </button>
                 </div>
                 <div class="input-hint">
-                    按 <strong>Enter</strong> 下一步 | 交替輸入 銷售額 與 稅額
+                    按 <strong>Enter</strong> 下一步 | 連續輸入總金額
                 </div>
             </div>
         </section>
 
-        <section class="summary-card">
-            <div class="summary-item">
-                <span class="label">總銷售額</span>
-                <div id="totalSales" class="value">0</div>
-            </div>
-            <div class="summary-item">
-                <span class="label">總稅額</span>
-                <div id="totalTax" class="value">0</div>
-            </div>
+        <section class="summary-card total-mode">
             <div class="summary-item total">
-                <span class="label">總計 (含稅)</span>
+                <span class="label">累計總額</span>
                 <div id="grandTotal" class="value">0</div>
             </div>
         </section>
 
         <section class="list-container">
-            <div class="list-header">
+            <div class="list-header total-mode">
                 <span>編號</span>
-                <span>銷售額</span>
-                <span>稅額</span>
+                <span>金額</span>
                 <span>操作</span>
             </div>
             <div id="listItems" class="list-items">
                 <div class="empty-state">
                     <i data-lucide="calculator"></i>
-                    <p>尚未輸入任何發票資訊</p>
+                    <p>尚未輸入任何金額</p>
                 </div>
             </div>
         </section>
     </div>
 
-    <script src="app.js"></script>
+    <script src="total-app.js"></script>
 </body>
 
 </html>
