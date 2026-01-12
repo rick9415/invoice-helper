@@ -12,66 +12,75 @@
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <h1>發票小助手</h1>
-            <p>快速記錄每筆發票資訊，自動計算總計</p>
-        </header>
+    <div class="main-wrapper">
+        <!-- 左側:操作區 -->
+        <div class="left-panel">
+            <header>
+                <h1>發票小助手</h1>
+                <p>快速記錄每筆發票資訊,自動計算總計</p>
+            </header>
 
-        <nav class="nav-tabs">
-            <a href="index.html" class="nav-link active">發票模式</a>
-            <a href="total.html" class="nav-link">總額模式</a>
-        </nav>
+            <nav class="nav-tabs">
+                <a href="index.html" class="nav-link active">發票模式</a>
+                <a href="total.html" class="nav-link">總額模式</a>
+            </nav>
 
-        <section class="input-card">
-            <div class="input-group">
-                <div class="input-label">
-                    <span>目前的輸入項目</span>
-                    <span id="currentStatus" class="status">● 銷售額</span>
+            <section class="input-card">
+                <div class="input-group">
+                    <div class="input-label">
+                        <span>目前的輸入項目</span>
+                        <span id="currentStatus" class="status">● 銷售額</span>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="text" id="mainInput" placeholder="請輸入數值..." autofocus inputmode="decimal"
+                            pattern="[0-9]*">
+                        <button id="addBtn" class="add-btn">
+                            <i data-lucide="plus"></i>
+                        </button>
+                    </div>
+                    <div class="input-hint">
+                        按 <strong>Enter</strong> 下一步 | 交替輸入 銷售額 與 稅額
+                    </div>
                 </div>
-                <div class="input-wrapper">
-                    <input type="text" id="mainInput" placeholder="請輸入數值..." autofocus inputmode="decimal"
-                        pattern="[0-9]*">
-                    <button id="addBtn" class="add-btn">
-                        <i data-lucide="plus"></i>
-                    </button>
-                </div>
-                <div class="input-hint">
-                    按 <strong>Enter</strong> 下一步 | 交替輸入 銷售額 與 稅額
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="summary-card">
-            <div class="summary-item">
-                <span class="label">總銷售額</span>
-                <div id="totalSales" class="value">0</div>
-            </div>
-            <div class="summary-item">
-                <span class="label">總稅額</span>
-                <div id="totalTax" class="value">0</div>
-            </div>
-            <div class="summary-item total">
-                <span class="label">總計 (含稅)</span>
-                <div id="grandTotal" class="value">0</div>
-            </div>
-        </section>
+            <section class="summary-card">
+                <div class="summary-item">
+                    <span class="label">總銷售額</span>
+                    <div id="totalSales" class="value">0</div>
+                </div>
+                <div class="summary-item">
+                    <span class="label">總稅額</span>
+                    <div id="totalTax" class="value">0</div>
+                </div>
+                <div class="summary-item total">
+                    <span class="label">總計 (含稅)</span>
+                    <div id="grandTotal" class="value">0</div>
+                </div>
+            </section>
+        </div>
 
-        <section class="list-container">
-            <div class="list-header">
-                <span>編號</span>
-                <span>銷售額</span>
-                <span>稅額</span>
-                <span>小計</span>
-                <span>操作</span>
-            </div>
-            <div id="listItems" class="list-items">
-                <div class="empty-state">
-                    <i data-lucide="calculator"></i>
-                    <p>尚未輸入任何發票資訊</p>
+        <!-- 右側:清單顯示區 -->
+        <div class="right-panel">
+            <div class="list-container">
+                <div class="list-header">
+                    <h2>已輸入項目</h2>
+                    <div class="list-controls">
+                        <button id="sortBtn" class="sort-btn" title="切換排序">
+                            <i data-lucide="arrow-down-up"></i>
+                            <span id="sortLabel">最舊在前</span>
+                        </button>
+                        <span id="itemCount" class="item-count">0 筆</span>
+                    </div>
+                </div>
+                <div id="listItems" class="list-items">
+                    <div class="empty-state">
+                        <i data-lucide="calculator"></i>
+                        <p>尚未輸入任何發票資訊</p>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
 
     <script src="app.js"></script>
