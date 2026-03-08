@@ -139,16 +139,14 @@ function undoLastDelete() {
     mainInput.focus();
 }
 
-// 刪除發票
+// 刪除發票（不需確認，可用 Undo 復原）
 window.deleteInvoice = function (index) {
-    if (confirm('確定要刪除這筆資料嗎?')) {
-        const deleted = invoices[index];
-        lastDeleteAction = { type: 'delete', invoice: deleted, index };
-        invoices.splice(index, 1);
-        renderList();
-        updateSummary();
-        updateUndoButton();
-    }
+    const deleted = invoices[index];
+    lastDeleteAction = { type: 'delete', invoice: deleted, index };
+    invoices.splice(index, 1);
+    renderList();
+    updateSummary();
+    updateUndoButton();
 };
 
 // 編輯發票
