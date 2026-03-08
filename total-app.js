@@ -3,12 +3,14 @@
  */
 
 let entries = [];
+let lastDeleteAction = null; // Undo 復原用
 
 // DOM 元素
 const mainInput = document.getElementById('mainInput');
 const listItems = document.getElementById('listItems');
 const grandTotalEl = document.getElementById('grandTotal');
 const addBtn = document.getElementById('addBtn');
+const undoBtn = document.getElementById('undoBtn');
 const clearAllBtn = document.getElementById('clearAllBtn');
 
 // 初始化圖示
@@ -58,24 +60,48 @@ function renderList() {
     initIcons();
 }
 
+function updateUndoButton() {
+    if (!undoBtn) return;
+    undoBtn.disabled = !lastDeleteAction;
+}
+
+function undoLastDelete() {
+    if (!lastDeleteAction) return;
+
+    if (lastDeleteAction.type === 'delete') {
+        entries.splice(lastDeleteAction.index, 0, lastDeleteAction.entry);
+    } else if (lastDeleteAction.type === 'clear') {
+        entries = [...lastDeleteAction.entries];
+    }
+
+    lastDeleteAction = null;
+    renderList();
+    updateSummary();
+    updateUndoButton();
+    mainInput.focus();
+}
+
 // 刪除項目
 window.deleteEntry = function (index) {
+    const deleted = entries[index];
+    lastDeleteAction = { type: 'delete', entry: deleted, index };
     entries.splice(index, 1);
     renderList();
     updateSummary();
+    updateUndoButton();
 };
 
 // 全部清除
 function clearAllEntries() {
     if (entries.length === 0) return;
 
-    if (confirm('確定要全部清除嗎?')) {
-        entries = [];
-        mainInput.value = '';
-        renderList();
-        updateSummary();
-        mainInput.focus();
-    }
+    lastDeleteAction = { type: 'clear', entries: [...entries] };
+    entries = [];
+    mainInput.value = '';
+    renderList();
+    updateSummary();
+    updateUndoButton();
+    mainInput.focus();
 }
 
 // 處理輸入核心邏輯
@@ -111,6 +137,9 @@ function handleInput(e) {
 // 事件監聽
 mainInput.addEventListener('keydown', handleInput);
 addBtn.addEventListener('click', processValue);
+if (undoBtn) {
+    undoBtn.addEventListener('click', undoLastDelete);
+}
 if (clearAllBtn) {
     clearAllBtn.addEventListener('click', clearAllEntries);
 }
@@ -125,5 +154,6 @@ document.addEventListener('click', (e) => {
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
     initIcons();
+    updateUndoButton();
     mainInput.focus();
 });

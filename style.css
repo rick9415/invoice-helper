@@ -299,6 +299,16 @@ input:focus {
     height: 16px;
 }
 
+.undo-btn {
+    color: var(--secondary-color);
+}
+
+.undo-btn:hover:not(:disabled) {
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+    background: rgba(129, 140, 248, 0.08);
+}
+
 .clear-btn {
     color: var(--accent-color);
 }
@@ -309,10 +319,16 @@ input:focus {
     background: rgba(251, 113, 133, 0.08);
 }
 
+.sort-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .input-actions {
     margin-top: 0.75rem;
     display: flex;
     justify-content: flex-end;
+    gap: 0.5rem;
 }
 
 .item-count {

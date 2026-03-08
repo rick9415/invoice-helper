@@ -8,6 +8,7 @@ let isWaitingForTax = false; // 目前是否在期待輸入稅額
 let tempSales = null;
 let sortNewestFirst = false; // 排序方式:true=最新在前,false=最舊在前
 let editingIndex = null; // 正在編輯的項目索引
+let lastDeleteAction = null; // Undo 復原用
 
 // DOM 元素
 const mainInput = document.getElementById('mainInput');
@@ -19,6 +20,7 @@ const grandTotalEl = document.getElementById('grandTotal');
 const addBtn = document.getElementById('addBtn');
 const sortBtn = document.getElementById('sortBtn');
 const sortLabel = document.getElementById('sortLabel');
+const undoBtn = document.getElementById('undoBtn');
 const clearAllBtn = document.getElementById('clearAllBtn');
 
 // 初始化圖示
@@ -116,12 +118,36 @@ function renderList() {
     initIcons();
 }
 
+function updateUndoButton() {
+    if (!undoBtn) return;
+    undoBtn.disabled = !lastDeleteAction;
+}
+
+function undoLastDelete() {
+    if (!lastDeleteAction) return;
+
+    if (lastDeleteAction.type === 'delete') {
+        invoices.splice(lastDeleteAction.index, 0, lastDeleteAction.invoice);
+    } else if (lastDeleteAction.type === 'clear') {
+        invoices = [...lastDeleteAction.invoices];
+    }
+
+    lastDeleteAction = null;
+    renderList();
+    updateSummary();
+    updateUndoButton();
+    mainInput.focus();
+}
+
 // 刪除發票
 window.deleteInvoice = function (index) {
     if (confirm('確定要刪除這筆資料嗎?')) {
+        const deleted = invoices[index];
+        lastDeleteAction = { type: 'delete', invoice: deleted, index };
         invoices.splice(index, 1);
         renderList();
         updateSummary();
+        updateUndoButton();
     }
 };
 
@@ -174,21 +200,21 @@ function toggleSort() {
 function clearAllInvoices() {
     if (invoices.length === 0) return;
 
-    if (confirm('確定要全部清除嗎?')) {
-        invoices = [];
-        isWaitingForTax = false;
-        tempSales = null;
-        editingIndex = null;
+    lastDeleteAction = { type: 'clear', invoices: [...invoices] };
+    invoices = [];
+    isWaitingForTax = false;
+    tempSales = null;
+    editingIndex = null;
 
-        currentStatus.textContent = '● 銷售額';
-        currentStatus.style.color = 'var(--primary-color)';
-        mainInput.placeholder = '請輸入銷售額...';
-        mainInput.value = '';
+    currentStatus.textContent = '● 銷售額';
+    currentStatus.style.color = 'var(--primary-color)';
+    mainInput.placeholder = '請輸入銷售額...';
+    mainInput.value = '';
 
-        renderList();
-        updateSummary();
-        mainInput.focus();
-    }
+    renderList();
+    updateSummary();
+    updateUndoButton();
+    mainInput.focus();
 }
 
 // 處理輸入核心邏輯
@@ -268,6 +294,9 @@ addBtn.addEventListener('click', processValue);
 if (sortBtn) {
     sortBtn.addEventListener('click', toggleSort);
 }
+if (undoBtn) {
+    undoBtn.addEventListener('click', undoLastDelete);
+}
 if (clearAllBtn) {
     clearAllBtn.addEventListener('click', clearAllInvoices);
 }
@@ -282,5 +311,6 @@ document.addEventListener('click', (e) => {
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
     initIcons();
+    updateUndoButton();
     mainInput.focus();
 });
