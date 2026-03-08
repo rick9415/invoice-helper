@@ -299,6 +299,22 @@ input:focus {
     height: 16px;
 }
 
+.clear-btn {
+    color: var(--accent-color);
+}
+
+.clear-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background: rgba(251, 113, 133, 0.08);
+}
+
+.input-actions {
+    margin-top: 0.75rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
 .item-count {
     font-size: 0.875rem;
     color: var(--text-secondary);

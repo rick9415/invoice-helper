@@ -19,6 +19,7 @@ const grandTotalEl = document.getElementById('grandTotal');
 const addBtn = document.getElementById('addBtn');
 const sortBtn = document.getElementById('sortBtn');
 const sortLabel = document.getElementById('sortLabel');
+const clearAllBtn = document.getElementById('clearAllBtn');
 
 // 初始化圖示
 function initIcons() {
@@ -169,6 +170,27 @@ function toggleSort() {
     renderList();
 }
 
+// 全部清除
+function clearAllInvoices() {
+    if (invoices.length === 0) return;
+
+    if (confirm('確定要全部清除嗎?')) {
+        invoices = [];
+        isWaitingForTax = false;
+        tempSales = null;
+        editingIndex = null;
+
+        currentStatus.textContent = '● 銷售額';
+        currentStatus.style.color = 'var(--primary-color)';
+        mainInput.placeholder = '請輸入銷售額...';
+        mainInput.value = '';
+
+        renderList();
+        updateSummary();
+        mainInput.focus();
+    }
+}
+
 // 處理輸入核心邏輯
 function processValue() {
     const val = parseFloat(mainInput.value);
@@ -245,6 +267,9 @@ mainInput.addEventListener('keydown', handleInput);
 addBtn.addEventListener('click', processValue);
 if (sortBtn) {
     sortBtn.addEventListener('click', toggleSort);
+}
+if (clearAllBtn) {
+    clearAllBtn.addEventListener('click', clearAllInvoices);
 }
 
 // 保持 Focus (在非按鈕點擊時)

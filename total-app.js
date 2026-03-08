@@ -9,6 +9,7 @@ const mainInput = document.getElementById('mainInput');
 const listItems = document.getElementById('listItems');
 const grandTotalEl = document.getElementById('grandTotal');
 const addBtn = document.getElementById('addBtn');
+const clearAllBtn = document.getElementById('clearAllBtn');
 
 // 初始化圖示
 function initIcons() {
@@ -64,6 +65,19 @@ window.deleteEntry = function (index) {
     updateSummary();
 };
 
+// 全部清除
+function clearAllEntries() {
+    if (entries.length === 0) return;
+
+    if (confirm('確定要全部清除嗎?')) {
+        entries = [];
+        mainInput.value = '';
+        renderList();
+        updateSummary();
+        mainInput.focus();
+    }
+}
+
 // 處理輸入核心邏輯
 function processValue() {
     const val = parseFloat(mainInput.value);
@@ -97,6 +111,9 @@ function handleInput(e) {
 // 事件監聽
 mainInput.addEventListener('keydown', handleInput);
 addBtn.addEventListener('click', processValue);
+if (clearAllBtn) {
+    clearAllBtn.addEventListener('click', clearAllEntries);
+}
 
 // 保持 Focus
 document.addEventListener('click', (e) => {
