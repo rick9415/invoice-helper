@@ -47,15 +47,20 @@ function renderList() {
         return;
     }
 
-    listItems.innerHTML = entries.map((entry, index) => `
+    const displayEntries = [...entries].reverse();
+
+    listItems.innerHTML = displayEntries.map((entry, displayIndex) => {
+        const originalIndex = entries.length - 1 - displayIndex;
+        return `
         <div class="item-row total-mode">
-            <span class="item-index">#${index + 1}</span>
+            <span class="item-index">#${originalIndex + 1}</span>
             <span class="item-sales">${formatNumber(entry.amount)}</span>
-            <button class="delete-btn" onclick="deleteEntry(${index})" title="刪除">
+            <button class="delete-btn" onclick="deleteEntry(${originalIndex})" title="刪除">
                 <i data-lucide="trash-2"></i>
             </button>
         </div>
-    `).reverse().join('');
+    `;
+    }).join('');
 
     initIcons();
 }
